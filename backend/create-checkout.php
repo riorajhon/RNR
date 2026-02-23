@@ -76,11 +76,15 @@ if (!$user || empty($user['email'])) {
   exit;
 }
 
-// Stripe requires full URLs (e.g. http://localhost/new/frontend/...)
-$host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost';
-$scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
-$path = trim((strpos($base_url, '/') === 0 ? $base_url : '/' . $base_url), '/');
-$full_base = $scheme . '://' . $host . ($path !== '' ? '/' . $path : '');
+// Stripe requires full absolute URLs. Use SITE_URL when set (deploy); else build from request. Never use base_url when it's a full URL.
+if (defined('SITE_URL') && SITE_URL !== '') {
+  $full_base = rtrim(SITE_URL, '/');
+} else {
+  $host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost';
+  $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+  $path_part = (strpos($base_url, '://') !== false) ? '' : trim((strpos($base_url, '/') === 0 ? $base_url : '/' . $base_url), '/');
+  $full_base = $scheme . '://' . $host . ($path_part !== '' ? '/' . $path_part : '');
+}
 $success_url = $full_base . '/frontend/payment-success.php?session_id={CHECKOUT_SESSION_ID}';
 $cancel_url = $full_base . '/frontend/pages/pricing.php?canceled=1';
 
