@@ -80,8 +80,29 @@ require __DIR__ . '/../backend/includes/header.php';
         <input type="text" id="qr_footer_text" name="qr_footer_text" maxlength="255" placeholder="Help us improve and win a free gift">
       </div>
       <div class="form-group">
-        <label for="redirect_url_positive">URL when rating is 7–10 (e.g. your Google Reviews or Facebook)</label>
-        <input type="url" id="redirect_url_positive" name="redirect_url_positive" placeholder="https://...">
+        <span class="form-label">Send happy customers to (selected platforms are shown on the thank-you page)</span>
+        <div class="review-platforms-multi" role="group" aria-label="Review platforms">
+          <label class="platform-option">
+            <input type="checkbox" name="review_platforms[]" value="google">
+            <span class="platform-icon platform-google" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg></span>
+            <span>Google</span>
+          </label>
+          <label class="platform-option">
+            <input type="checkbox" name="review_platforms[]" value="facebook">
+            <span class="platform-icon platform-facebook" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="#1877F2" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></span>
+            <span>Facebook</span>
+          </label>
+          <label class="platform-option">
+            <input type="checkbox" name="review_platforms[]" value="yelp">
+            <span class="platform-icon platform-yelp" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="#D32323" d="M20.16 12.73l-4.88 2.12 1.44 5.92c.18.72-.49 1.21-1.1.82l-4.2-2.78-4.2 2.78c-.61.4-1.28-.1-1.1-.82l1.44-5.92-4.88-2.12c-.62-.27-.45-1.1.24-1.2l5.92-.48 2.28-5.6c.28-.68 1.23-.68 1.51 0l2.28 5.6 5.92.48c.69.1.86.93.24 1.2z"/></svg></span>
+            <span>Yelp</span>
+          </label>
+          <label class="platform-option">
+            <input type="checkbox" name="review_platforms[]" value="tripadvisor">
+            <span class="platform-icon platform-tripadvisor" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="#00AF87" d="M12.006 4.295c-2.67 0-5.338.784-7.645 2.353H0v12.706h4.35v-8.28c1.22-1.15 2.65-1.74 4.31-1.74 1.66 0 3.09.59 4.31 1.74v8.28h4.35V9.648c0-2.88-2.34-5.353-5.355-5.353zm12.006 0c-2.67 0-5.338.784-7.645 2.353H12v2.353h.01c1.12 0 2.23.25 3.24.73 1.01.48 1.92 1.17 2.7 2.04.78.87 1.4 1.9 1.84 3.06.44 1.16.66 2.4.66 3.7 0 2.88 2.34 5.35 5.35 5.35 2.67 0 5.34-.78 7.65-2.35V4.295h-4.35v8.28c-1.22 1.15-2.65 1.74-4.31 1.74-1.66 0-3.09-.59-4.31-1.74V4.295h-4.35z"/></svg></span>
+            <span>TripAdvisor</span>
+          </label>
+        </div>
       </div>
       <div class="form-group">
         <label for="num_questions">How many follow-up questions for low ratings (0–3)</label>
@@ -215,7 +236,11 @@ require __DIR__ . '/../backend/includes/header.php';
     api('dashboard.php?action=settings').then(function(s) {
       if (s.error) return;
       document.getElementById('qr_footer_text').value = s.qr_footer_text || '';
-      document.getElementById('redirect_url_positive').value = s.redirect_url_positive || '';
+      var rpList = (s.review_platform || 'google').split(',').map(function(x) { return x.trim(); }).filter(function(x) { return ['google','yelp','facebook','tripadvisor'].indexOf(x) >= 0; });
+      if (rpList.length === 0) rpList = ['google'];
+      document.querySelectorAll('input[name="review_platforms[]"]').forEach(function(cb) {
+        cb.checked = rpList.indexOf(cb.value) >= 0;
+      });
       document.getElementById('num_questions').value = String(s.num_questions ?? 3);
   updateQuestionVisibility();
       document.getElementById('question_1').value = s.question_1 || '';
@@ -447,6 +472,8 @@ require __DIR__ . '/../backend/includes/header.php';
     var form = this;
     var fd = new FormData(form);
     fd.append('action', 'save_settings');
+    var checked = form.querySelectorAll('input[name="review_platforms[]"]:checked');
+    if (checked.length === 0) fd.append('review_platforms[]', 'google');
     var status = document.getElementById('save-status');
     status.textContent = 'Saving…';
     fetch(base + 'backend/api/dashboard.php', { method: 'POST', credentials: 'same-origin', body: fd })
@@ -562,7 +589,14 @@ main.dashboard-app { max-width: 100%; padding-left: 3.5rem; padding-right: 3.5re
 .btn.btn-icon { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; padding: 0; border-radius: 10px; border: 1px solid var(--color-border); background: #fff; color: var(--color-text); transition: background 0.2s, border-color 0.2s; }
 .btn.btn-icon:hover { background: var(--color-bg-alt, #f3f4f6); border-color: var(--color-primary, #6366f1); color: var(--color-primary, #6366f1); }
 .dashboard-form .form-group { margin-bottom: 1rem; }
+.dashboard-form .form-label { display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: 0.9rem; }
 .dashboard-form label { display: block; margin-bottom: 0.25rem; font-weight: 500; font-size: 0.9rem; }
+.review-platforms-multi { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.25rem; }
+.review-platforms-multi .platform-option { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0.75rem; border: 1px solid var(--color-border); border-radius: 10px; background: #fff; cursor: pointer; font-size: 0.9rem; transition: border-color 0.2s, background 0.2s; }
+.review-platforms-multi .platform-option:hover { border-color: var(--color-primary, #6366f1); background: var(--color-bg-alt, #f8fafc); }
+.review-platforms-multi .platform-option input { margin: 0; width: 1rem; height: 1rem; accent-color: var(--color-primary, #6366f1); }
+.review-platforms-multi .platform-icon { display: inline-flex; width: 24px; height: 24px; flex-shrink: 0; }
+.review-platforms-multi .platform-icon svg { width: 100%; height: 100%; }
 .dashboard-form .form-group-checkbox label.checkbox-label { display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 0; cursor: pointer; }
 .dashboard-form .form-group-checkbox input[type="checkbox"] { width: 1.1rem; height: 1.1rem; margin: 0; flex-shrink: 0; accent-color: var(--color-primary, #6366f1); }
 .dashboard-form input[type="text"], .dashboard-form input[type="url"], .dashboard-form select { width: 100%; max-width: 480px; padding: 0.55rem 0.75rem; border: 1px solid var(--color-border); border-radius: 10px; font-size: 0.95rem; }

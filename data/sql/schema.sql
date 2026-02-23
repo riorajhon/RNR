@@ -25,6 +25,7 @@ CREATE TABLE business_settings (
   user_id INT UNSIGNED NOT NULL,
   qr_footer_text VARCHAR(255) DEFAULT NULL,
   redirect_url_positive VARCHAR(512) DEFAULT NULL COMMENT 'URL when rating 7-10',
+  review_platform VARCHAR(32) DEFAULT 'google' COMMENT 'google|yelp|facebook|tripadvisor - show only this on thank-you page',
   question_1 VARCHAR(512) DEFAULT NULL,
   question_2 VARCHAR(512) DEFAULT NULL,
   question_3 VARCHAR(512) DEFAULT NULL,
