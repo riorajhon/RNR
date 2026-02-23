@@ -1,0 +1,27 @@
+Data Security page  (Header / Drop Down menu)
+Content:
+    Main header: Data privacy & GDPR compliance
+        Sub header: Customer reviews are powerful data capture tools.   The great news is that 1TXT is built to be GDPR-compliant
+    Paragraph #1 header: What does GDPR-compliance mean? 
+        The European Union’s General Data Protection Regulation     (GDPR) is a comprehensive data privacy and protection law. It   applies to any organization that collects or processes    personal data from EU residents. Non-compliance with GDPR can  result in significant fines and legal action.
+        GDPR is similar to global data privacy regulations like     California's Consumer Privacy Act (CCPA) and Canada's   Personal Information Protection and Electronic Documents Act  (PIPEDA).
+    Paragraph #2 header: How we are GDPR-compliant 
+        1TXT data is securely stored on our encrypted servers
+        All data is stored on our own servers in a secure,  banking-grade data center. 
+        By default, we only store aggregate data. If you choose to  collect personal data using a lead form, there are two ways  you can choose to store lead data securely.
+        To ensure further security of data, all logins are secured by   two-factor authentication (2FA).
+    Paragraph #3 header: No tracking and almost zero cookies 
+        We do not track users’ personal data. Any content you create    and embed does not track:
+        IP addresses,  Google or other US-based analytics , or Google   Fonts
+        We add just one anonymous session cookie for your embedded  content, without collecting any personal data. 
+    Paragraph #4 header:  We give users full control of their data
+        We’re transparent with our users, and give them full control    over their data.
+        When users fill in lead-forms, they are given the opportunity   to opt-in to how their data will be stored, processed, and    used.
+        As a 1TXT client, you can also choose to require double-opt     in. This will go through email confirmation. 
+    Paragraph #5 header:   We do not share or sell any data
+        Only you can view data collected from your customers. This  includes personal, identifiable data from lead forms.
+        You own all the ratings and review data from your customers.    We do not make your content searchable on our website, or  repurpose it for our own materials. 
+
+Images: Break up these images into separate images and use them in a neat layout at different places throughout the page and in between paragraphs
+Image 1 LINK – https://1txt.co/rating/images/ImagesForDataSecurity1.jpg  
+Image 2 LINK - https://1txt.co/rating/images/ImagesForDataSecurity2.jpg  

@@ -1,0 +1,112 @@
+Functional Requirements:
+    Fully responsive UI (desktop/tablet/mobile)
+    Backend database to store users, ratings, responses, templates etc.
+    Real-time preview engine for survey creation
+    Secure authentication for logging in
+    Option to export data (CSV/Excel)
+    RESTful API structure (preferred)
+stack: PHP + MYSQL(only)
+
+web application + website
+
+The aim is to help small businesses become better, by asking their customers what specific thing they can improve
+
+The web application will generate a QR code. 
+When a customer scans the QR code, they can rate the business from 1 to 10
+The website will tell businesses owners what the application does
+It is a sales website
+
+This project brief is divided into 2 parts
+
+Web application:
+    What it does
+    How it works
+    User journey and process flow
+Web site:
+    10 Pages – Home, About Us, Contact, Data security, Sign Up page etc.
+Web application
+    The QR code says “Rate Us and win a free gift”
+    When the customer scans the QR code, it opens a rating page(rating_page.png)
+    If the rating is High (7 to 10), then the next page leads to the business’ public “Reviews” page. For example:(image1.png)
+    If the rating is Low (1 to 6), then we ask the customer a few questions
+        For example:
+            Question 1: “What is 1 thing we can improve to make our business better?”
+            Question 2: “Can you tell us 2 specific things that bothered you today?”
+            Question 3: “Should we add more products, or new services?”
+    web application should allow the business to:
+        Type their own questions
+        Decide how many questions to ask (between 1 and 3)
+        Offer a free gift / free prize for providing the feedback, or not offer it
+        Choose what prize to offer (upload description of prize + photo of prize – optional)
+        If the customer wants the free gift, then to collect their name, e-mail address and mobile
+    Generate the QR code to display at their cash counter
+    Edit the text to be displayed below the QR code
+        For example “Help Us Improve and win a free gift”
+        Or leave it blank
+        Print the QR code along with the footer text
+    Log in to a dashboard which displays (Neatly, attractively and graphically)
+        How many customers responded
+        How many gave positive / negative reviews
+        (editable field) – which URL the customer was sent - Customer ratings o Facebook, or Yelp etc. 
+        Reviews organised by date and time (sortable columns)
+        Customer’s e-mail addresses and mobile numbers captured
+            Downloadable data in Excel 
+    Edit settings for their dashboard
+        Change password, Edit name, Upload their own profile photo
+        Change their payment plan
+        Cancel their subscription and delete their account
+     web application should allow the business to change their payment plan
+        $ 2 per month OR
+        $20 per year (20% discount over the monthly plan)
+    Both payment plans give access to all features
+        QR code and Rating page
+        Can log into account and edit:
+            Which URL to send customers to if rating is 7 or above
+            3 edit-able questions
+            How many customers responded (show graphically)
+            How many gave positive / negative reviews (show graphically)
+            Free gift option – editable with text description and upload-able image of gift
+            Customer’s email, mobile number and name database
+            All features as described in the previous slide
+    Payment Plan – This is part of the Web site, not the web application
+    When the business clicks inside their dashboard on “Change payment plan” then bring them to the “Pricing” page on the website
+    Let them select 1 of the 2 pricing plans - $2 per month, or $20 per year
+    There are only 2 pricing plans
+    The plans automatically renew every month / every year until cancelled
+Web site
+    Overall guidelines for the web site:
+        Must be mobile-optimised – Responsive on desktop, tablet and mobile
+        Fast loading in under 3 seconds on any device (we will test this)
+        Clean layout, with at least 50%  ample white space and consistent fonts, colors, and spacing
+        Visitors should immediately understand:
+            Who we are
+            What we do
+            Who the product is for
+The pages will be 
+Header / drop down menu
+    Home page
+    Sign In / Sign Up
+    Data Security
+    Pricing
+    Case studies with specific data (AI generated) for example “Increased conversions by 37% in 90 days” > “Great service!” 
+Footer (on every page) which includes 
+    Articles (We will provide this) – 
+        Social proof as part of your marketing strategy (Copy and paste content from here - https://baboost.dev/blog/social-proof-as-part-of-your-marketing-strategy/ )
+        Local search – How to rank higher in search results (Copy and paste content from here - https://baboost.dev/blog/local-search-how-to-rank-higher-in-google/ )
+        The power of social proof (Copy and paste content from here - https://baboost.dev/blog/the-power-of-social-proof/ )
+        How do reviews impact your business? (Copy and paste content from here - https://baboost.dev/blog/how-do-google-reviews-impact-your-business/)
+        Reputation management – The good, the bad and the ugly (Copy and paste content from here - https://baboost.dev/blog/reputation-management-the-good-the-bad-and-the-ugly/ )
+        Responding to negative reviews (Copy and paste content from here - https://baboost.dev/blog/responding-to-negative-reviews/ )
+    Clear contact information 
+    Privacy Policy
+    About Us
+    Terms
+
+refer this site for UI and skelecton
+    https://kontakkt.com/
+    https://cervei.com/features
+
+
+
+
+

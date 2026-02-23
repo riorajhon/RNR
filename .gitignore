@@ -1,0 +1,3 @@
+# Secrets (copy from *-sample.php and fill in)
+backend/config.stripe.php
+backend/config.cpanel.php

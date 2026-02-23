@@ -1,0 +1,7 @@
+# Optional: use when this folder is the document root (e.g. on cPanel).
+# Then https://yourdomain.com/ will serve the home page.
+DirectoryIndex frontend/index.php
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^$ frontend/index.php [L]
+</IfModule>
