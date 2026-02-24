@@ -1,3 +1,4 @@
-# Secrets (copy from *-sample.php and fill in)
+# Secrets – use .env (copy from .env.example). Never commit .env or old PHP config with secrets.
+.env
 backend/config.stripe.php
 backend/config.cpanel.php

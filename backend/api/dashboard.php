@@ -19,7 +19,7 @@ $user_id = (int) $_SESSION['user_id'];
 $action = $_GET['action'] ?? $_POST['action'] ?? '';
 
 if ($action === 'settings') {
-  $stmt = $pdo->prepare("SELECT qr_footer_text, redirect_url_positive, review_platform, question_1, question_2, question_3, num_questions, offer_gift, gift_description, gift_image FROM business_settings WHERE user_id = ?");
+  $stmt = $pdo->prepare("SELECT qr_footer_text, redirect_url_positive, review_platform, review_url_google, review_url_facebook, review_url_yelp, review_url_tripadvisor, question_1, question_2, question_3, num_questions, offer_gift, gift_description, gift_image FROM business_settings WHERE user_id = ?");
   $stmt->execute([$user_id]);
   $row = $stmt->fetch();
   if (!$row) {
@@ -37,6 +37,10 @@ if ($action === 'save_settings' && $_SERVER['REQUEST_METHOD'] === 'POST') {
   $allowed = ['google', 'yelp', 'facebook', 'tripadvisor'];
   $review_platforms_filtered = array_values(array_unique(array_filter(array_map('trim', is_array($review_platforms_raw) ? $review_platforms_raw : (array) $review_platforms_raw), function ($v) use ($allowed) { return in_array($v, $allowed, true); })));
   $review_platform = count($review_platforms_filtered) > 0 ? implode(',', $review_platforms_filtered) : 'google';
+  $review_url_google = trim($_POST['review_url_google'] ?? '');
+  $review_url_facebook = trim($_POST['review_url_facebook'] ?? '');
+  $review_url_yelp = trim($_POST['review_url_yelp'] ?? '');
+  $review_url_tripadvisor = trim($_POST['review_url_tripadvisor'] ?? '');
   $question_1 = trim($_POST['question_1'] ?? '');
   $question_2 = trim($_POST['question_2'] ?? '');
   $question_3 = trim($_POST['question_3'] ?? '');
@@ -57,8 +61,8 @@ if ($action === 'save_settings' && $_SERVER['REQUEST_METHOD'] === 'POST') {
       }
     }
   }
-  $pdo->prepare("UPDATE business_settings SET qr_footer_text=?, redirect_url_positive=?, review_platform=?, question_1=?, question_2=?, question_3=?, num_questions=?, offer_gift=?, gift_description=?, gift_image=? WHERE user_id = ?")
-    ->execute([$qr_footer_text, $redirect_url_positive, $review_platform, $question_1, $question_2, $question_3, $num_questions, $offer_gift, $gift_description, $gift_image !== '' ? $gift_image : null, $user_id]);
+  $pdo->prepare("UPDATE business_settings SET qr_footer_text=?, redirect_url_positive=?, review_platform=?, review_url_google=?, review_url_facebook=?, review_url_yelp=?, review_url_tripadvisor=?, question_1=?, question_2=?, question_3=?, num_questions=?, offer_gift=?, gift_description=?, gift_image=? WHERE user_id = ?")
+    ->execute([$qr_footer_text, $redirect_url_positive, $review_platform, $review_url_google ?: null, $review_url_facebook ?: null, $review_url_yelp ?: null, $review_url_tripadvisor ?: null, $question_1, $question_2, $question_3, $num_questions, $offer_gift, $gift_description, $gift_image !== '' ? $gift_image : null, $user_id]);
   echo json_encode(['success' => true]);
   exit;
 }

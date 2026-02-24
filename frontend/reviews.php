@@ -16,7 +16,7 @@ if ($user_id < 1) {
   exit;
 }
 
-$stmt = $pdo->prepare("SELECT bs.review_platform, u.name AS business_name FROM business_settings bs JOIN users u ON u.id = bs.user_id WHERE bs.user_id = ?");
+$stmt = $pdo->prepare("SELECT bs.review_platform, bs.review_url_google, bs.review_url_facebook, bs.review_url_yelp, bs.review_url_tripadvisor, u.name AS business_name FROM business_settings bs JOIN users u ON u.id = bs.user_id WHERE bs.user_id = ?");
 $stmt->execute([$user_id]);
 $row = $stmt->fetch();
 $business_name = $row ? ($row['business_name'] ?? 'Us') : 'Us';
@@ -33,6 +33,12 @@ $platform_defaults = [
   'facebook'    => 'https://www.facebook.com/',
   'yelp'        => 'https://www.yelp.com/writeareview',
   'tripadvisor' => 'https://www.tripadvisor.com/',
+];
+$platform_url_keys = [
+  'google'      => 'review_url_google',
+  'facebook'    => 'review_url_facebook',
+  'yelp'        => 'review_url_yelp',
+  'tripadvisor' => 'review_url_tripadvisor',
 ];
 $platform_labels = [
   'google'      => ['title' => 'Leave a review on Google', 'aria' => 'Google', 'class' => 'reviews-google'],
@@ -85,7 +91,9 @@ header('Content-Type: text/html; charset=utf-8');
     ];
     foreach ($review_platforms as $p) {
       $info = $platform_labels[$p] ?? $platform_labels['google'];
-      $url = $platform_defaults[$p] ?? $platform_defaults['google'];
+      $key = $platform_url_keys[$p] ?? null;
+      $custom_url = ($key && $row && !empty(trim($row[$key] ?? ''))) ? trim($row[$key]) : null;
+      $url = $custom_url ?: ($platform_defaults[$p] ?? $platform_defaults['google']);
       $svg = $svgs[$p] ?? $svgs['google'];
       ?>
     <a href="<?php echo htmlspecialchars($url); ?>" target="_blank" rel="noopener noreferrer" class="<?php echo htmlspecialchars($info['class']); ?>" title="<?php echo htmlspecialchars($info['title']); ?>" aria-label="<?php echo htmlspecialchars($info['aria']); ?>"><?php echo $svg; ?></a>

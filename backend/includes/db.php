@@ -1,11 +1,7 @@
 <?php
 /**
- * Database connection (MySQL). Set credentials in config.cpanel.php (cPanel)
- * or via environment variables.
+ * Database connection (MySQL). Credentials are set in config.php from .env (or env vars).
  */
-if (file_exists(__DIR__ . '/../config.cpanel.php')) {
-  require_once __DIR__ . '/../config.cpanel.php';
-}
 $db_config = [
   'host' => defined('DB_HOST') ? DB_HOST : (getenv('DB_HOST') ?: 'localhost'),
   'name' => defined('DB_NAME') ? DB_NAME : (getenv('DB_NAME') ?: 'onetxt'),
