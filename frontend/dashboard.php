@@ -43,7 +43,7 @@ require __DIR__ . '/../backend/includes/header.php';
         <img src="<?php echo htmlspecialchars($qr_image_url); ?>" alt="QR code" width="200" height="200" class="dashboard-qr-img">
         <p class="dashboard-qr-footer" id="qr-footer-preview"><?php echo htmlspecialchars($_SESSION['qr_footer_preview'] ?? 'Rate us and win a free gift'); ?></p>
         <p class="dashboard-qr-url"><small>Link: <a href="<?php echo htmlspecialchars($rate_url); ?>" target="_blank" rel="noopener"><?php echo htmlspecialchars($rate_url); ?></a></small></p>
-        <button type="button" class="btn btn-outline" onclick="window.print()">Print QR code</button>
+        <button type="button" class="btn btn-outline dashboard-print-qr-btn" onclick="window.print()">Print QR code</button>
       </div>
     </div>
     <div class="dashboard-overview-right">
@@ -733,6 +733,7 @@ main.dashboard-app { max-width: 100%; padding-left: 3.5rem; padding-right: 3.5re
 @media print {
   .dashboard-tabs { display: none !important; }
   .dashboard-plan-btn { display: none !important; }
+  .dashboard-print-qr-btn { display: none !important; }
   .dashboard-panel[hidden] { display: none !important; }
   .site-header, .site-footer, .back-to-top, .dashboard-overview-right { display: none !important; }
   .dashboard-qr-wrap { box-shadow: none; }
