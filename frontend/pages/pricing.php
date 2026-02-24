@@ -4,7 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
   session_start();
 }
 $base_url = get_base_url();
-$error = isset($_GET['error']) ? trim($_GET['error']) : '';
+$has_error = isset($_GET['error']) && trim($_GET['error']) !== '';
 $page_title = 'Pricing | 1TXT';
 require __DIR__ . '/../../backend/includes/header.php';
 ?>
@@ -15,8 +15,11 @@ require __DIR__ . '/../../backend/includes/header.php';
   </section>
 
   <section class="section pricing-section">
-    <?php if ($error): ?>
-    <p class="pricing-notice pricing-notice-error"><?php echo htmlspecialchars($error); ?> Please try again or contact support.</p>
+    <?php if ($has_error): ?>
+    <div class="pricing-notice pricing-notice-error" role="alert">
+      <span class="pricing-notice-icon" aria-hidden="true">!</span>
+      <p class="pricing-notice-text">We couldn’t complete your payment. Please try again in a few moments or contact support if it keeps happening.</p>
+    </div>
     <?php endif; ?>
     <p class="text-center" style="margin-bottom: 2rem; text-align: center; max-width: 560px; margin-left: auto; margin-right: auto;">Both payment plans give access to all features. The only difference is auto-renewal duration (Monthly vs Annually).</p>
     <div class="pricing-grid">
@@ -91,9 +94,12 @@ require __DIR__ . '/../../backend/includes/header.php';
 </main>
 <style>
 .pricing-section { text-align: center; }
-.pricing-notice { display: block; max-width: 560px; margin-left: auto; margin-right: auto; margin-bottom: 1.5rem; padding: 0.75rem 1rem; border-radius: 8px; font-size: 0.95rem; text-align: center; }
+.pricing-notice { display: flex; align-items: flex-start; gap: 0.75rem; max-width: 560px; margin-left: auto; margin-right: auto; margin-bottom: 1.5rem; padding: 1rem 1.25rem; border-radius: 10px; font-size: 0.95rem; text-align: left; }
+.pricing-notice-icon { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; min-width: 24px; border-radius: 50%; background: #b91c1c; color: #fff; font-weight: 700; font-size: 0.9rem; }
+.pricing-notice-text { margin: 0; line-height: 1.5; }
 .pricing-notice-info { background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; }
 .pricing-notice-error { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+.pricing-notice-error .pricing-notice-text { color: #991b1b; }
 .pricing-faq-section { max-width: 720px; margin-left: auto; margin-right: auto; }
 .pricing-faq-title { text-align: center; font-size: clamp(1.75rem, 4vw, 2.25rem); font-weight: 700; color: #111; margin-bottom: 2rem; }
 .pricing-faq-accordion { display: flex; flex-direction: column; gap: 0.75rem; }
