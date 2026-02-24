@@ -16,14 +16,14 @@ if ($user_id < 1) {
   exit;
 }
 
-$stmt = $pdo->prepare("SELECT bs.review_platform, bs.review_url_google, bs.review_url_facebook, bs.review_url_yelp, bs.review_url_tripadvisor, u.name AS business_name FROM business_settings bs JOIN users u ON u.id = bs.user_id WHERE bs.user_id = ?");
+$stmt = $pdo->prepare("SELECT bs.review_platform, bs.review_url_google, bs.review_url_facebook, bs.review_url_yelp, bs.review_url_tripadvisor, bs.review_url_other, bs.review_label_other, u.name AS business_name FROM business_settings bs JOIN users u ON u.id = bs.user_id WHERE bs.user_id = ?");
 $stmt->execute([$user_id]);
 $row = $stmt->fetch();
 $business_name = $row ? ($row['business_name'] ?? 'Us') : 'Us';
 $review_platform_raw = $row && !empty(trim($row['review_platform'] ?? '')) ? trim($row['review_platform']) : 'google';
 $review_platforms = array_values(array_intersect(
   array_map('trim', explode(',', $review_platform_raw)),
-  ['google', 'yelp', 'facebook', 'tripadvisor']
+  ['google', 'yelp', 'facebook', 'tripadvisor', 'other']
 ));
 if (empty($review_platforms)) {
   $review_platforms = ['google'];
@@ -33,18 +33,21 @@ $platform_defaults = [
   'facebook'    => 'https://www.facebook.com/',
   'yelp'        => 'https://www.yelp.com/writeareview',
   'tripadvisor' => 'https://www.tripadvisor.com/',
+  'other'       => null,
 ];
 $platform_url_keys = [
   'google'      => 'review_url_google',
   'facebook'    => 'review_url_facebook',
   'yelp'        => 'review_url_yelp',
   'tripadvisor' => 'review_url_tripadvisor',
+  'other'       => 'review_url_other',
 ];
 $platform_labels = [
   'google'      => ['title' => 'Leave a review on Google', 'aria' => 'Google', 'class' => 'reviews-google'],
   'facebook'    => ['title' => 'Leave a review on Facebook', 'aria' => 'Facebook', 'class' => 'reviews-facebook'],
   'yelp'        => ['title' => 'Leave a review on Yelp', 'aria' => 'Yelp', 'class' => 'reviews-yelp'],
   'tripadvisor' => ['title' => 'Leave a review on TripAdvisor', 'aria' => 'TripAdvisor', 'class' => 'reviews-tripadvisor'],
+  'other'       => ['title' => 'Leave a review', 'aria' => 'Other', 'class' => 'reviews-other'],
 ];
 
 header('Content-Type: text/html; charset=utf-8');
@@ -71,6 +74,7 @@ header('Content-Type: text/html; charset=utf-8');
     .reviews-facebook { background: #1877f2; }
     .reviews-yelp { background: #d32323; }
     .reviews-tripadvisor { background: #00af87; }
+    .reviews-other { background: #6b7280; width: auto; min-width: 56px; padding: 0 1rem; border-radius: 28px; font-size: 0.9rem; font-weight: 500; }
     .reviews-platforms .reviews-label { width: 100%; flex-basis: 100%; font-size: 0.9rem; color: #374151; margin-top: 0.75rem; }
     .reviews-thanks { padding: 1rem 0 0; color: #6b7280; font-size: 0.95rem; }
   </style>
@@ -94,9 +98,15 @@ header('Content-Type: text/html; charset=utf-8');
       $key = $platform_url_keys[$p] ?? null;
       $custom_url = ($key && $row && !empty(trim($row[$key] ?? ''))) ? trim($row[$key]) : null;
       $url = $custom_url ?: ($platform_defaults[$p] ?? $platform_defaults['google']);
+      if ($p === 'other' && !$url) continue;
       $svg = $svgs[$p] ?? $svgs['google'];
+      $link_text = ($p === 'other' && $row && !empty(trim($row['review_label_other'] ?? ''))) ? trim($row['review_label_other']) : ($p === 'other' ? 'Other' : '');
       ?>
+    <?php if ($p === 'other') { ?>
+    <a href="<?php echo htmlspecialchars($url); ?>" target="_blank" rel="noopener noreferrer" class="<?php echo htmlspecialchars($info['class']); ?>" title="<?php echo htmlspecialchars($info['title']); ?> – <?php echo htmlspecialchars($link_text); ?>" aria-label="<?php echo htmlspecialchars($link_text); ?>"><?php echo htmlspecialchars($link_text); ?></a>
+    <?php } else { ?>
     <a href="<?php echo htmlspecialchars($url); ?>" target="_blank" rel="noopener noreferrer" class="<?php echo htmlspecialchars($info['class']); ?>" title="<?php echo htmlspecialchars($info['title']); ?>" aria-label="<?php echo htmlspecialchars($info['aria']); ?>"><?php echo $svg; ?></a>
+    <?php } ?>
     <?php } ?>
   </div>
   <p class="reviews-platforms reviews-label">Click a platform above to leave your review.</p>

@@ -30,6 +30,8 @@ CREATE TABLE business_settings (
   review_url_facebook VARCHAR(512) DEFAULT NULL,
   review_url_yelp VARCHAR(512) DEFAULT NULL,
   review_url_tripadvisor VARCHAR(512) DEFAULT NULL,
+  review_url_other VARCHAR(512) DEFAULT NULL,
+  review_label_other VARCHAR(255) DEFAULT NULL,
   question_1 VARCHAR(512) DEFAULT NULL,
   question_2 VARCHAR(512) DEFAULT NULL,
   question_3 VARCHAR(512) DEFAULT NULL,

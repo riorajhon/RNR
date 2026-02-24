@@ -2,7 +2,7 @@
   <footer class="site-footer">
     <div class="footer-inner">
       <div class="footer-col">
-        <h4 class="footer-logo-text">RNR</h4>
+        <h4 class="footer-logo-text">1TXT</h4>
         <p>Help small businesses get better by asking customers what to improve. QR-based ratings and reviews.</p>
       </div>
       <div class="footer-col">
@@ -32,7 +32,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      Copyright © <?php echo date('Y'); ?> RNR. All rights reserved.
+      Copyright © <?php echo date('Y'); ?> 1TXT. All rights reserved.
     </div>
   </footer>
   <script>
